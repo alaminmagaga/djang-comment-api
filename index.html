@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Comments</title>
+    <style>
+
+/* .comment-email,
+.comment-content {
+  float: left;
+  margin: 10px;
+  padding: 5px;
+  color:red;
+} */
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        margin-top: 0;
+        padding: 20px;
+        background-color: #3498db;
+        color: white;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .comment {
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        padding: 10px;
+      }
+      .comment h2 {
+        margin-top: 0;
+        font-size: 18px;
+      }
+      .comment p {
+        margin: 5px 0;
+      }
+      .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      .pagination a {
+        margin: 0 5px;
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Comments</h1>
+    <div class="container">
+      <div id="comments">
+        
+      </div>
+      
+      <div class="pagination" id="pagination"></div>
+    </div>
+    <script>
+      function fetchComments(url) {
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            const commentsContainer = document.getElementById('comments');
+            commentsContainer.innerHTML = '';
+
+            data.results.forEach(comment => {
+              const commentElement = document.createElement('div');
+              commentElement.classList.add('comment');
+
+
+            
+              
+              const nameElement = document.createElement('h2');
+              const detailLink = document.createElement('a');
+              detailLink.href = `http://127.0.0.1:8000/comments/${comment.id}/`;
+              detailLink.textContent = comment.name;
+              nameElement.appendChild(detailLink);
+              commentElement.appendChild(nameElement);
+
+              const imageElement = document.createElement('img');
+              if (comment.image) {
+                imageElement.src = comment.image;
+                imageElement.alt = comment.name;
+                imageElement.width = '200';
+                imageElement.height = '200';
+              } else {
+                imageElement.src = 'https://via.placeholder.com/150';
+                imageElement.alt = 'No image provided';
+              }
+              commentElement.appendChild(imageElement);
+
+              const lineBreak1 = document.createElement('br');
+              commentElement.appendChild(lineBreak1);
+
+              const lineBreak2 = document.createElement('br');
+              commentElement.appendChild(lineBreak2);
+              
+
+              const lineElement = document.createElement('hr');
+              commentElement.appendChild(lineElement);
+              commentElement.style = '1px solid red';
+
+              
+             
+              
+            
+              // Add event listener to handle link click
+              detailLink.addEventListener('click', e => {
+                e.preventDefault();
+                // Redirect to detail page
+                window.location.href = `detail.html?id=${comment.id}`;
+              });
+              commentElement.appendChild(detailLink);
+              
+              
+
+              const emailElement = document.createElement('p');
+              emailElement.textContent = comment.email;
+              emailElement.style.float = 'left'; // Add this line
+              emailElement.style.margin = '10px'; // Add this line
+              emailElement.style.padding = '5px'; // Add this line
+              commentElement.appendChild(emailElement);
+
+
+              const helloElement = document.createElement('p');
+              helloElement.textContent = 'hello i am alamin';
+              helloElement.style.margin = '10px';
+              helloElement.style.padding = '5px';
+              commentElement.appendChild(helloElement);
+
+  
+
+//               const emailElement = document.createElement('p');
+// emailElement.textContent = comment.email;
+// emailElement.classList.add('comment-email'); // Add this line to give the element a class
+// commentElement.appendChild(emailElement);
+
+// const contentElement = document.createElement('p');
+// contentElement.textContent = comment.content;
+// contentElement.classList.add('comment-content'); // Add this line to give the element a class
+// commentElement.appendChild(contentElement);
+
+
+              const createdAtElement = document.createElement('p');
+              createdAtElement.textContent = `Posted on ${new Date(comment.created_at).toLocaleString()}`;
+              commentElement.appendChild(createdAtElement);
+
+              const deleteLink = document.createElement('a');
+              deleteLink.href = `confirmation.html?comment_id=${comment.id}`;
+              deleteLink.textContent = 'Delete';
+              commentElement.appendChild(deleteLink);
+
+          
+
+
+             const updateLink = document.createElement('a');
+    updateLink.href = `update.html?id=${comment.id}`;
+    updateLink.textContent = 'Update';
+    commentElement.appendChild(updateLink);
+
+
+              
+        // const deleteButton = document.createElement('button');
+        // deleteButton.textContent = 'Delete';
+        // deleteButton.addEventListener('click', () => {
+        //   fetch(`http://127.0.0.1:8000/comments/${comment.id}/delete`, {
+        //     method: 'DELETE'
+        //   })
+        //   .then(response => {
+        //     if (response.ok) {
+        //       // Redirect to index page after deleting comment
+        //       window.location.href = 'index.html';
+        //     } else {
+        //       throw new Error('Failed to delete comment');
+        //     }
+        //   })
+        //   .catch(error => {
+        //     console.error(error);
+        //   });
+        // });
+        // commentElement.appendChild(deleteButton);
+
+
+
+
+              commentsContainer.appendChild(commentElement);
+            });
+
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = '';
+
+            if (data.previous) {
+              const previousElement = document.createElement('a');
+              previousElement.textContent = 'Previous';
+              previousElement.addEventListener('click', () => {
+                fetchComments(data.previous);
+              });
+              paginationContainer.appendChild(previousElement);
+            }
+
+            if (data.next) {
+              const nextElement = document.createElement('a');
+              nextElement.textContent = 'Next';
+              nextElement.addEventListener('click', () => {
+                fetchComments(data.next);
+              });
+              paginationContainer.appendChild(nextElement);
+            }
+          });
+      }
+
+      fetchComments('http://127.0.0.1:8000/comments/');
+    </script>
+  </body>
+</html>

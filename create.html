@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Create Comment</title>
+  </head>
+  <body>
+    <h1>Create Comment</h1>
+    <form id="comment-form">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name"><br>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email"><br>
+
+      <label for="content">Content:</label><br>
+      <textarea id="content" name="content"></textarea><br>
+
+      <input type="submit" value="Submit">
+    </form>
+
+    <script>
+      const form = document.getElementById('comment-form');
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+
+        fetch('http://127.0.0.1:8000/comments/create/', {
+          method: 'POST',
+          body: formData
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Comment created:', data);
+            window.location.href = 'http://127.0.0.1:8000/comments/';
+          })
+          .catch(error => {
+            console.error('Error creating comment:', error);
+          });
+      });
+    </script>
+  </body>
+</html>

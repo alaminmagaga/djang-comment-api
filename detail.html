@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Comment Detail</title>
+  </head>
+  <body>
+    <h1>Comment Detail</h1>
+    <div id="comment">
+      <h2 id="name"></h2>
+      <p id="email"></p>
+      <p id="content"></p>
+      <p id="created-at"></p>
+    </div>
+    <a href="index.html">Back to Comments</a>
+
+    <script>
+      // Get the comment ID from the URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const commentId = urlParams.get('id');
+
+      // Fetch the comment details from the API
+      fetch(`http://127.0.0.1:8000/comments/${commentId}/`)
+        .then(response => response.json())
+        .then(comment => {
+          // Update the HTML elements with the comment data
+          const nameElement = document.getElementById('name');
+          nameElement.textContent = comment.name;
+
+          const emailElement = document.getElementById('email');
+          emailElement.textContent = comment.email;
+
+          const contentElement = document.getElementById('content');
+          contentElement.textContent = comment.content;
+
+          const createdAtElement = document.getElementById('created-at');
+          createdAtElement.textContent = `Posted on ${new Date(comment.created_at).toLocaleString()}`;
+        });
+    </script>
+  </body>
+</html>
