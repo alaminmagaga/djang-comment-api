@@ -1,2 +1,1 @@
-
-web: gunicorn djangocomment.wsgi --log-file -
+web: python manage.py migrate && gunicorn djang-comment-api.wsgi
