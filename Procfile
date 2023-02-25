@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn djang-comment-api.wsgi
+web: python manage.py migrate && gunicorn djangocomment.wsgi
