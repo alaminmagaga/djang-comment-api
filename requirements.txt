@@ -6,3 +6,4 @@ sqlparse==0.4.3
 django-cors-headers==3.4.0
 typing-extensions==4.4.0
 djangorestframework==3.11.1
+pillow==9.4.0
