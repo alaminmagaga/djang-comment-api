@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-&9pw$-20&ih8dhj+6s+tu=j1t82d4_b5fe@a^h=z=md3cg7==h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -55,6 +55,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = "djangocomment.urls"
 
